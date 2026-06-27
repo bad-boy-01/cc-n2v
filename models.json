@@ -1,0 +1,88 @@
+{
+  "_comment": "CC-Novel2Video v2 — Model Registry. Change models here, not in code.",
+  "llm": [
+    {
+      "id": "qwen2.5-7b",
+      "repo": "Qwen/Qwen2.5-7B-Instruct",
+      "vram_gb": 4.5,
+      "supports_thinking": false,
+      "quantization": "4bit",
+      "default": false,
+      "notes": "Fallback LLM — lower VRAM requirement"
+    },
+    {
+      "id": "deepseek-r1-7b",
+      "repo": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+      "vram_gb": 4.5,
+      "supports_thinking": true,
+      "quantization": "4bit",
+      "default": false,
+      "notes": "Optional — better structured JSON extraction"
+    }
+  ],
+  "image": [
+    {
+      "id": "flux_schnell",
+      "repo": "black-forest-labs/FLUX.1-schnell",
+      "vram_gb": 7.5,
+      "inference_steps": 4,
+      "guidance_scale": 0.0,
+      "license": "Apache 2.0",
+      "default": true,
+      "notes": "Primary image model — 4 steps, fast on T4"
+    },
+    {
+      "id": "sdxl",
+      "repo": "stabilityai/stable-diffusion-xl-base-1.0",
+      "vram_gb": 5.5,
+      "inference_steps": 30,
+      "guidance_scale": 7.5,
+      "license": "Apache 2.0",
+      "default": false,
+      "notes": "Fallback image model — lower VRAM, used for easy/medium difficulty scenes"
+    }
+  ],
+  "tts": [
+    {
+      "id": "kokoro",
+      "repo": "hexgrad/Kokoro-82M",
+      "vram_gb": 0,
+      "cpu_ok": true,
+      "cloud": false,
+      "license": "Apache 2.0",
+      "default": true,
+      "voices": ["af_heart", "af_bella", "am_adam", "am_michael"],
+      "notes": "Primary TTS — local, free, ~400MB, CPU-capable"
+    },
+    {
+      "id": "edge-tts",
+      "repo": null,
+      "vram_gb": 0,
+      "cpu_ok": true,
+      "cloud": true,
+      "license": "Free (no API key)",
+      "default": false,
+      "notes": "Fallback TTS — Microsoft Edge API, requires internet"
+    }
+  ],
+  "ocr": [
+    {
+      "id": "easyocr",
+      "repo": "JaidedAI/EasyOCR",
+      "vram_gb": 1.0,
+      "cpu_ok": true,
+      "license": "Apache 2.0",
+      "default": true,
+      "notes": "Primary OCR for manhwa — supports 80+ languages"
+    },
+    {
+      "id": "paddleocr",
+      "repo": "PaddlePaddle/PaddleOCR",
+      "vram_gb": 0.5,
+      "cpu_ok": true,
+      "license": "Apache 2.0",
+      "default": false,
+      "notes": "Fallback OCR — better for dense text"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "western_comic",
+  "name": "Western Comic",
+  "description": "American superhero comic style with bold colors and strong line art.",
+  "image_style": "western comic book style, bold outlines, flat colors, dot halftone, superhero art",
+  "quality_suffix": "comic book art, bold colors, masterpiece, strong outlines, professional comic",
+  "camera_style": "dynamic",
+  "narration_style": "dramatic",
+  "transition_style": "cut",
+  "emotion_intensity": "high",
+  "target_audience": "general",
+  "preferred_model": "flux_schnell",
+  "color_palette": "bold",
+  "aspect_ratio": "4:3",
+  "time_of_day_lighting": {
+    "dawn": "warm orange, long dramatic shadows",
+    "day": "bright primary colors, clear shadows",
+    "dusk": "red sky, dark silhouettes",
+    "night": "deep blue, sharp contrast"
+  }
+}

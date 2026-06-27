@@ -1,0 +1,21 @@
+{
+  "id": "anime",
+  "name": "Anime",
+  "description": "Japanese anime art style with expressive characters and vibrant colors.",
+  "image_style": "anime art style, cel shading, vibrant colors, expressive characters, detailed backgrounds",
+  "quality_suffix": "anime, masterpiece, best quality, highly detailed, vibrant colors, studio quality",
+  "camera_style": "dynamic",
+  "narration_style": "dramatic",
+  "transition_style": "fast_cut",
+  "emotion_intensity": "high",
+  "target_audience": "young_adult",
+  "preferred_model": "flux_schnell",
+  "color_palette": "vibrant",
+  "aspect_ratio": "16:9",
+  "time_of_day_lighting": {
+    "dawn": "pink sunrise, soft pastel sky",
+    "day": "bright anime lighting, clean shadows",
+    "dusk": "orange sunset, emotional atmosphere",
+    "night": "dark sky with stars, city glow"
+  }
+}

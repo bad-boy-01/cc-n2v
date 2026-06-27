@@ -1,0 +1,21 @@
+{
+  "id": "youtube_recap",
+  "name": "YouTube Recap",
+  "description": "High-energy visual style optimized for YouTube video essays and recap content.",
+  "image_style": "digital art, clean illustration, bold colors, modern design, eye-catching",
+  "quality_suffix": "digital illustration, clean art, vibrant, high contrast, attention-grabbing, 4k",
+  "camera_style": "dynamic",
+  "narration_style": "energetic",
+  "transition_style": "fast_cut",
+  "emotion_intensity": "medium",
+  "target_audience": "general",
+  "preferred_model": "flux_schnell",
+  "color_palette": "vibrant",
+  "aspect_ratio": "16:9",
+  "time_of_day_lighting": {
+    "dawn": "bright warm start",
+    "day": "energetic bright lighting",
+    "dusk": "dynamic orange-purple",
+    "night": "dramatic dark with highlights"
+  }
+}

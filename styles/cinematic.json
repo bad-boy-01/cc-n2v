@@ -1,0 +1,21 @@
+{
+  "id": "cinematic",
+  "name": "Cinematic",
+  "description": "Hollywood-style cinematic visuals with dramatic lighting and wide shots.",
+  "image_style": "cinematic photography, dramatic lighting, film grain, anamorphic lens",
+  "quality_suffix": "cinematic, masterpiece, photorealistic, dramatic lighting, 8k, sharp focus",
+  "camera_style": "cinematic",
+  "narration_style": "dramatic",
+  "transition_style": "dissolve",
+  "emotion_intensity": "medium",
+  "target_audience": "general",
+  "preferred_model": "flux_schnell",
+  "color_palette": "desaturated",
+  "aspect_ratio": "16:9",
+  "time_of_day_lighting": {
+    "dawn": "golden hour, warm orange light, long shadows",
+    "day": "bright natural light, soft shadows",
+    "dusk": "purple twilight, dramatic sky",
+    "night": "moonlit, deep shadows, city lights"
+  }
+}

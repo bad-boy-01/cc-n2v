@@ -1,0 +1,21 @@
+{
+  "id": "manga",
+  "name": "Classic Manga",
+  "description": "Japanese manga black and white with halftone patterns and expressive linework.",
+  "image_style": "manga art style, black and white, halftone patterns, detailed linework, screen tones",
+  "quality_suffix": "manga art, black and white, masterpiece, detailed linework, professional manga",
+  "camera_style": "dynamic",
+  "narration_style": "intense",
+  "transition_style": "cut",
+  "emotion_intensity": "high",
+  "target_audience": "young_adult",
+  "preferred_model": "sdxl",
+  "color_palette": "monochrome",
+  "aspect_ratio": "3:4",
+  "time_of_day_lighting": {
+    "dawn": "light grey tones, soft shadows",
+    "day": "high contrast black and white",
+    "dusk": "deep shadows, dramatic contrast",
+    "night": "black background, selective white highlights"
+  }
+}

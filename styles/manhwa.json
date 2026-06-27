@@ -1,0 +1,21 @@
+{
+  "id": "manhwa",
+  "name": "Modern Manhwa",
+  "description": "Korean webtoon style with bold colors, dramatic composition, and vertical panels.",
+  "image_style": "Korean webtoon style, manhwa art, vibrant colors, clean linework, dramatic lighting",
+  "quality_suffix": "manhwa art style, webtoon, masterpiece, sharp clean lines, vivid colors, high detail",
+  "camera_style": "cinematic",
+  "narration_style": "dramatic",
+  "transition_style": "fast_cut",
+  "emotion_intensity": "high",
+  "target_audience": "young_adult",
+  "preferred_model": "flux_schnell",
+  "color_palette": "vibrant",
+  "aspect_ratio": "9:16",
+  "time_of_day_lighting": {
+    "dawn": "rose-gold sunrise, dramatic atmosphere",
+    "day": "bright saturated daylight",
+    "dusk": "purple-orange sunset, cinematic",
+    "night": "neon city lights, deep contrast"
+  }
+}

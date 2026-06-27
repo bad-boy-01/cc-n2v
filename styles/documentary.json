@@ -1,0 +1,21 @@
+{
+  "id": "documentary",
+  "name": "Documentary",
+  "description": "Realistic photographic style suited for educational and factual content.",
+  "image_style": "photorealistic, documentary photography, natural lighting, professional photography",
+  "quality_suffix": "photorealistic, 8k, professional photography, sharp focus, natural colors",
+  "camera_style": "slow_pan",
+  "narration_style": "calm",
+  "transition_style": "dissolve",
+  "emotion_intensity": "low",
+  "target_audience": "general",
+  "preferred_model": "sdxl",
+  "color_palette": "muted",
+  "aspect_ratio": "16:9",
+  "time_of_day_lighting": {
+    "dawn": "golden hour, warm natural light",
+    "day": "natural daylight, soft shadows",
+    "dusk": "warm sunset, long shadows",
+    "night": "low-light photography, moonlight"
+  }
+}
