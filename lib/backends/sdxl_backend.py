@@ -77,6 +77,10 @@ class SDXLBackend:
         )
         self._pipe = self._pipe.to(device)
 
+        # Fix SDXL VAE float16 precision bug
+        if dtype == torch.float16:
+            self._pipe.upcast_vae()
+
         # Disable safety checker for creative content generation
         self._pipe.safety_checker = None
 

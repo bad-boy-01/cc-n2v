@@ -28,7 +28,7 @@
       "inference_steps": 4,
       "guidance_scale": 0.0,
       "license": "Apache 2.0",
-      "default": true,
+      "default": false,
       "notes": "Primary image model — 4 steps, fast on T4"
     },
     {
@@ -38,7 +38,7 @@
       "inference_steps": 30,
       "guidance_scale": 7.5,
       "license": "Apache 2.0",
-      "default": false,
+      "default": true,
       "notes": "Fallback image model — lower VRAM, used for easy/medium difficulty scenes"
     }
   ],
