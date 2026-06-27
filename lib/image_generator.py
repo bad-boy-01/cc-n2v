@@ -380,10 +380,17 @@ class ImageGenerator:
         if char_context:
             full_prompt = f"{base_prompt}\n{char_context}"
 
-        # Try FLUX → SDXL → reuse
-        img = self._generate_with_flux(full_prompt, segment_id=segment_id)
-        backend = "flux"
+        from lib.config import DEFAULT_IMAGE_MODEL
 
+        img = None
+        backend = None
+
+        # Try FLUX only if it's the configured default
+        if DEFAULT_IMAGE_MODEL == "flux_schnell":
+            img = self._generate_with_flux(full_prompt, segment_id=segment_id)
+            backend = "flux"
+
+        # Try SDXL if FLUX failed or if SDXL is the default
         if img is None:
             img = self._generate_with_sdxl(full_prompt, segment_id=segment_id)
             backend = "sdxl"

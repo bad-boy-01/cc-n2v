@@ -25,7 +25,7 @@ MAX_SCENES_PER_BATCH = int(os.environ.get("CCNV_BATCH_SIZE", "25"))
 
 # ── Image Generation ──────────────────────────────────────────────────────────
 
-DEFAULT_IMAGE_MODEL = os.environ.get("CCNV_IMAGE_MODEL", "flux_schnell")
+DEFAULT_IMAGE_MODEL = os.environ.get("CCNV_IMAGE_MODEL", "sdxl")
 # Options: "flux_schnell" | "sdxl"
 # flux_schnell: Apache 2.0, ~7 GB VRAM, 4 steps — recommended for T4
 # sdxl: Apache 2.0, ~5 GB VRAM, 30 steps — fallback

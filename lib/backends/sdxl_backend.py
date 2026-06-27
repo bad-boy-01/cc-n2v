@@ -57,7 +57,7 @@ class SDXLBackend:
 
         try:
             import torch
-            from diffusers import StableDiffusionXLPipeline
+            from diffusers import StableDiffusionXLPipeline, AutoencoderKL
         except ImportError as exc:
             raise ImportError(
                 "diffusers and torch are required for SDXL inference. "
@@ -69,17 +69,25 @@ class SDXLBackend:
         dtype = torch.float16 if torch.cuda.is_available() else torch.float32
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
+        vae = None
+        if dtype == torch.float16:
+            try:
+                logger.info("SDXLBackend: loading fp16 fixed VAE …")
+                vae = AutoencoderKL.from_pretrained(
+                    "madebyollin/sdxl-vae-fp16-fix", 
+                    torch_dtype=torch.float16
+                )
+            except Exception as e:
+                logger.warning("SDXLBackend: could not load fp16 VAE fix, will try without it: %s", e)
+
         self._pipe = StableDiffusionXLPipeline.from_pretrained(
             SDXL_REPO,
+            vae=vae,
             torch_dtype=dtype,
             use_safetensors=True,
             variant="fp16" if torch.cuda.is_available() else None,
         )
         self._pipe = self._pipe.to(device)
-
-        # Fix SDXL VAE float16 precision bug
-        if dtype == torch.float16:
-            self._pipe.upcast_vae()
 
         # Disable safety checker for creative content generation
         self._pipe.safety_checker = None

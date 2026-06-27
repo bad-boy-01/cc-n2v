@@ -9,7 +9,7 @@ Usage
 -----
 from plugins import load_image_plugin, load_tts_plugin
 
-img_plugin = load_image_plugin("flux_schnell")
+img_plugin = load_image_plugin("sdxl")
 img_plugin.load()
 image = img_plugin.generate(prompt, 1920, 1080)
 img_plugin.unload()
@@ -57,7 +57,7 @@ OCR_PLUGINS = {
 }
 
 
-def load_image_plugin(plugin_id: str = "flux_schnell") -> ImagePlugin:
+def load_image_plugin(plugin_id: str = "sdxl") -> ImagePlugin:
     """Load and return an image generation plugin."""
     return _load_plugin(IMAGE_PLUGINS, plugin_id, "image", ImagePlugin)
 
