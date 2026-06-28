@@ -400,14 +400,33 @@ class VideoAgent:
         self._log(f"Starting pipeline (mode={self.mode}, episode={self.episode})")
         self._log(f"Current state:\n{self.state}")
 
-        if self.input_file and Path(self.input_file).is_file() and Path(self.input_file).suffix.lower() in [".zip", ".cbz"]:
-            import zipfile
+        if self.input_file:
+            input_path = Path(self.input_file)
             extract_dir = self.project_dir / "cache" / "extracted_input"
-            extract_dir.mkdir(parents=True, exist_ok=True)
-            self._log(f"Extracting {self.input_file} to {extract_dir} ...")
-            with zipfile.ZipFile(self.input_file, 'r') as zip_ref:
-                zip_ref.extractall(extract_dir)
-            self.input_file = str(extract_dir)
+            
+            def extract_archive(archive_path: Path):
+                import zipfile
+                self._log(f"Extracting {archive_path.name} to {extract_dir} ...")
+                with zipfile.ZipFile(archive_path, 'r') as zip_ref:
+                    zip_ref.extractall(extract_dir)
+
+            if input_path.is_file() and input_path.suffix.lower() in [".zip", ".cbz"]:
+                extract_dir.mkdir(parents=True, exist_ok=True)
+                extract_archive(input_path)
+                self.input_file = str(extract_dir)
+            elif input_path.is_dir():
+                archives = list(input_path.glob("*.zip")) + list(input_path.glob("*.cbz"))
+                if archives:
+                    extract_dir.mkdir(parents=True, exist_ok=True)
+                    for archive in archives:
+                        extract_archive(archive)
+                    
+                    import shutil
+                    for img in input_path.iterdir():
+                        if img.suffix.lower() in [".jpg", ".jpeg", ".png", ".webp"]:
+                            shutil.copy2(img, extract_dir / img.name)
+                            
+                    self.input_file = str(extract_dir)
 
 
         if self.mode == "manhwa":

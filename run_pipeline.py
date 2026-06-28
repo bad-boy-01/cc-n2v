@@ -169,10 +169,10 @@ def main():
                 logger.error("Novel mode requires a text file as --input")
                 sys.exit(1)
         elif args.mode in ["manhwa", "manhwa_panels"]:
-            if in_path.is_dir():
-                logger.info(f"Using chapter directory: {in_path}")
+            if in_path.is_dir() or (in_path.is_file() and in_path.suffix.lower() in [".zip", ".cbz"]):
+                logger.info(f"Using manhwa input: {in_path}")
             else:
-                logger.error("Manhwa mode requires a directory of images as --input")
+                logger.error("Manhwa mode requires a directory of images or a ZIP/CBZ file as --input")
                 sys.exit(1)
 
     elif args.stage == "all" and not args.resume:
