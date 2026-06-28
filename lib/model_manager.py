@@ -113,6 +113,14 @@ class ModelManager:
             Context string included in the log message (e.g., "between Stage 1 and 2").
         """
         gc.collect()
+
+        # Force Python to return memory to the OS (critical for Kaggle's 30GB system RAM limit)
+        try:
+            import ctypes
+            ctypes.CDLL("libc.so.6").malloc_trim(0)
+        except Exception:
+            pass
+
         try:
             import torch
             if torch.cuda.is_available():
