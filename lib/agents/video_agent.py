@@ -46,6 +46,7 @@ class PipelineState:
         "storyboard_complete",
         "images_complete",
         "audio_complete",
+        "motion_complete",
         "video_complete",
     ]
 
@@ -61,6 +62,7 @@ class PipelineState:
             "storyboard_complete": False,
             "images_complete": False,
             "audio_complete": False,
+            "motion_complete": False,
             "video_complete": False,
             "last_scene": None,
             "last_batch": None,
@@ -334,6 +336,30 @@ class VideoAgent:
         self.state.mark("audio_complete", True)
         self._log("Stage 3 complete ✅")
 
+    # ── Stage 3b: Motion Generation (Ken Burns) ───────────────────────────────
+
+    def _stage3b_motion(self) -> None:
+        if self.state.get("motion_complete"):
+            self._log("Stage 3b already complete — skipping")
+            return
+
+        self._log("=== STAGE 3b: Motion Generation ===")
+
+        self.analytics.start_stage("motion")
+        from lib.motion_engine import MotionEngine
+        engine = MotionEngine(
+            project_name=self.project_name,
+            projects_root=str(self.project_dir.parent),
+            fps=24,
+            resolution=self.resolution,
+        )
+        engine.render_episode(self.episode)
+
+        self.analytics.end_stage("motion")
+
+        self.state.mark("motion_complete", True)
+        self._log("Stage 3b complete ✅")
+
     # ── Stage 4: Video Composition (FFmpeg, CPU only) ─────────────────────────
 
     def _stage4_compose(self) -> Optional[Path]:
@@ -373,17 +399,20 @@ class VideoAgent:
             self._stage1_storyboard()
             self._stage2_images()
             self._stage3_audio()
+            self._stage3b_motion()
             
         elif self.mode == "manhwa_panels":
             self._stage0_manhwa_panels()
             # Skip Stage 1 (Storyboard), Stage 2 (Images), Stage 3 (Audio)
             # The synthetic storyboard from Stage 0 is enough for Motion Engine
+            self._stage3b_motion()
             
         else:
             # Normal novel mode
             self._stage1_storyboard()
             self._stage2_images()
             self._stage3_audio()
+            self._stage3b_motion()
             
         output = self._stage4_compose()
 
