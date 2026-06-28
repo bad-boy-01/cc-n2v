@@ -11,7 +11,7 @@
   "target_audience": "young_adult",
   "preferred_model": "flux_schnell",
   "color_palette": "vibrant",
-  "aspect_ratio": "9:16",
+  "aspect_ratio": "16:9",
   "time_of_day_lighting": {
     "dawn": "rose-gold sunrise, dramatic atmosphere",
     "day": "bright saturated daylight",
