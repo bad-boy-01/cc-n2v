@@ -80,7 +80,8 @@ async def _edge_tts_synthesize(text: str, out_path: Path, voice: str = "en-US-Ar
             "am_adam":  "en-US-GuyNeural",
             "am_michael": "en-US-ChristopherNeural",
         }
-        edge_voice = EDGE_VOICE_MAP.get(voice, "en-US-AriaNeural")
+        # If the voice is not in the map (e.g. explicitly passed 'en-US-AndrewNeural'), use it directly
+        edge_voice = EDGE_VOICE_MAP.get(voice, voice)
         communicate = edge_tts.Communicate(text, edge_voice)
         await communicate.save(str(out_path))
     except Exception as e:
@@ -198,8 +199,9 @@ class KokoroTTS:
             _write_duration(out_path, 3.0)
             return out_path
 
-        # Try Kokoro
-        if self._backend == "kokoro" or self._load_kokoro():
+        # Try Kokoro if the voice doesn't look like an edge-tts specific voice
+        is_edge_voice = "-" in self.voice
+        if not is_edge_voice and (self._backend == "kokoro" or self._load_kokoro()):
             try:
                 self._kokoro_synthesize(text, out_path)
                 duration = _get_audio_duration(out_path)
