@@ -44,3 +44,15 @@ service-account.json
 
 # Git worktrees
 .worktrees/
+
+# Project Generated Content
+projects/*/images/
+projects/*/scene_cache/
+projects/*/audio/
+projects/*/video/
+projects/*/scripts/
+projects/*/state/
+projects/*/logs/
+*.mp4
+*.wav
+*.mp3
