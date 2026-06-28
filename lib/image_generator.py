@@ -36,10 +36,10 @@ logger = logging.getLogger(__name__)
 OPTIONAL_ENHANCEMENT = True   # Set False to disable IP-Adapter entirely
 
 RESOLUTION_MAP = {
-    "1080p": (1080, 1920),   # 9:16 portrait for narration
+    "1080p": (1088, 1920),   # 9:16 portrait (1088 is divisible by 16, avoids diffusers warning)
     "1440p": (1440, 2560),
     "4k":    (2160, 3840),
-    "16:9":  (1920, 1080),   # landscape drama mode
+    "16:9":  (1920, 1088),   # landscape drama mode
 }
 
 FLUX_SCHNELL_REPO = "black-forest-labs/FLUX.1-schnell"
