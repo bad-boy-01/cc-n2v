@@ -251,7 +251,7 @@ class ImageGenerator:
     # ── Image generation core ─────────────────────────────────────────────────
 
     def _get_output_size(self) -> Tuple[int, int]:
-        h, w = RESOLUTION_MAP.get(self.resolution, (1080, 1920))
+        w, h = RESOLUTION_MAP.get(self.resolution, (1080, 1920))
         return w, h  # PIL uses (width, height)
 
     def _generate_with_flux(
