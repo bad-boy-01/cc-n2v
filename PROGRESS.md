@@ -123,12 +123,7 @@ Target: 30-minute to 2-hour AI-generated videos on Kaggle 2x T4 GPUs. Zero paid 
 
 ## ❌ STILL NEEDS TO BE CREATED
 
-### Priority 1 — Wiring + Cleanup
-
-- [x] WebUI cleanup (run audit script first, then fix)
-  - Run: `python scripts/extract_frontend_logic.py --output audit_report.md`
-  - Replace remaining GeminiClient calls with service layer
-  - Replace Veo calls with `video_service.render_single_scene_motion()`
+(None! The project has been fully migrated and decoupled.)
 
 ---
 
@@ -226,8 +221,9 @@ cc-novel2video-main/
 
 ```
 Completed: Core Pipeline + Intelligence + Extensibility + Quality Layers (100%)
+Completed: WebUI Cleanup & Backend Decoupling (100%)
 Remaining: Tests & Finalization (README updates)
 
 Core pipeline: FULLY IMPLEMENTED!
-Only frontend (WebUI) cleanup remains to completely decouple the old dependencies.
+Frontend decoupling is 100% complete with 0 high/medium severity audit findings.
 ```

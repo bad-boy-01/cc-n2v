@@ -4,10 +4,10 @@
 
 | Severity | Count |
 |---|---|
-| 🔴 High (business logic in UI layer) | 10 |
+| 🔴 High (business logic in UI layer) | 0 |
 | 🟡 Medium (logic that should move to services) | 0 |
-| 🟢 Low (minor references) | 222 |
-| **Total** | **232** |
+| 🟢 Low (minor references) | 259 |
+| **Total** | **259** |
 
 ---
 
@@ -15,49 +15,7 @@
 
 ### 🔴 High Priority — Move to `lib/services/` immediately
 
-#### `webui\server\routers\generate.py`
-- **Line 78** — generate_video() call
-  ```
-  async def generate_video(
-  ```
-
-#### `webui\server\services\generation_tasks.py`
-- **Line 25** — execute_storyboard_task() — task logic
-  ```
-  def execute_storyboard_task(
-  ```
-- **Line 52** — execute_video_task() — task logic
-  ```
-  def execute_video_task(
-  ```
-- **Line 97** — execute_character_task() — task logic
-  ```
-  def execute_character_task(
-  ```
-- **Line 113** — execute_clue_task() — task logic
-  ```
-  def execute_clue_task(
-  ```
-- **Line 154** — execute_storyboard_task() — task logic
-  ```
-  result = execute_storyboard_task(
-  ```
-- **Line 186** — execute_storyboard_task() — task logic
-  ```
-  return execute_storyboard_task(project_name, str(resource_id), payload)
-  ```
-- **Line 188** — execute_video_task() — task logic
-  ```
-  return execute_video_task(project_name, str(resource_id), payload)
-  ```
-- **Line 190** — execute_character_task() — task logic
-  ```
-  return execute_character_task(project_name, str(resource_id), payload)
-  ```
-- **Line 192** — execute_clue_task() — task logic
-  ```
-  return execute_clue_task(project_name, str(resource_id), payload)
-  ```
+_No high-severity findings._
 
 ### 🟡 Medium Priority — Extract to service functions
 

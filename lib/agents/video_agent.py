@@ -381,6 +381,10 @@ class VideoAgent:
         )
         output_path = composer.compose_episode(self.episode)
         self.analytics.end_stage("compose")
+        
+        if not output_path:
+            self._log("Stage 4 complete ⚠️ — No video composed (no clips generated)")
+            return None
 
         self.state.mark("video_complete", True)
         self._log(f"Stage 4 complete ✅ — {output_path}")

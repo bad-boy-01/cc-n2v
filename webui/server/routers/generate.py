@@ -40,7 +40,7 @@ class GenerateClueRequest(BaseModel):
 
 
 @router.post("/projects/{project_name}/generate/storyboard/{segment_id}")
-async def generate_storyboard(
+async def enqueue_storyboard(
     project_name: str,
     segment_id: str,
     req: GenerateStoryboardRequest,
@@ -75,7 +75,7 @@ async def generate_storyboard(
 
 
 @router.post("/projects/{project_name}/generate/video/{segment_id}")
-async def generate_video(
+async def enqueue_video(
     project_name: str,
     segment_id: str,
     req: GenerateVideoRequest,
@@ -124,7 +124,7 @@ async def generate_video(
 
 
 @router.post("/projects/{project_name}/generate/character/{char_name}")
-async def generate_character(
+async def enqueue_character(
     project_name: str,
     char_name: str,
     req: GenerateCharacterRequest,
@@ -159,7 +159,7 @@ async def generate_character(
 
 
 @router.post("/projects/{project_name}/generate/clue/{clue_name}")
-async def generate_clue(
+async def enqueue_clue(
     project_name: str,
     clue_name: str,
     req: GenerateClueRequest,

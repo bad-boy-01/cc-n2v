@@ -66,16 +66,7 @@ class FluxBackend:
             torch_dtype=dtype,
         )
         
-        # Use CPU offloading to prevent OOM on 15GB VRAM GPUs like Kaggle T4
-        if device == "cuda":
-            try:
-                self._pipe.enable_model_cpu_offload()
-                logger.debug("FluxBackend: model_cpu_offload enabled")
-            except Exception as e:
-                logger.debug(f"FluxBackend: cpu offload failed, falling back to cuda: {e}")
-                self._pipe = self._pipe.to(device)
-        else:
-            self._pipe = self._pipe.to(device)
+        self._pipe = self._pipe.to(device)
 
         # Memory optimizations
         try:
@@ -89,6 +80,12 @@ class FluxBackend:
             logger.debug("FluxBackend: xformers enabled")
         except Exception:
             logger.debug("FluxBackend: xformers not available, using default attention")
+
+        try:
+            self._pipe.enable_vae_tiling()
+            logger.debug("FluxBackend: VAE tiling enabled")
+        except Exception:
+            pass
 
         logger.info("FluxBackend: FLUX.1-schnell loaded ✅")
 
@@ -135,15 +132,11 @@ class FluxBackend:
             exc_type = type(exc).__name__
             if "OutOfMemoryError" in exc_type or "CUDA out of memory" in exc_str:
                 logger.warning(
-                    "FluxBackend: CUDA OOM at %dx%d — returning None for SDXL fallback",
+                    "FluxBackend: CUDA OOM at %dx%d — unloading and returning None for SDXL fallback",
                     request.width, request.height,
                 )
-                # Release partially allocated tensors before returning
-                try:
-                    import torch as _t
-                    _t.cuda.empty_cache()
-                except Exception:
-                    pass
+                # Fully unload Flux so SDXL has VRAM headroom
+                self.unload()
                 return None
             raise  # Re-raise non-OOM errors for upstream logging
 

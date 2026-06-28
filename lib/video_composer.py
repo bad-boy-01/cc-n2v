@@ -157,7 +157,8 @@ class VideoComposer:
         muxed_paths = self._mux_all_scenes(segments)
 
         if not muxed_paths:
-            raise RuntimeError("No muxed clips produced — check motion and audio stages")
+            logger.error("[VideoComposer] No muxed clips produced — all image generation failed. Exiting gracefully.")
+            return None
 
         # Step 2: Concatenate all muxed clips
         logger.info(f"[VideoComposer] Concatenating {len(muxed_paths)} scenes …")

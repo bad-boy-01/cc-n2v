@@ -146,7 +146,7 @@ class GenerationWorker:
     async def _process_task(self, task: Dict[str, Any]) -> None:
         task_id = task["task_id"]
         try:
-            from webui.server.services.generation_tasks import execute_generation_task
+            from lib.services.task_dispatcher import execute_generation_task
 
             result = await asyncio.to_thread(execute_generation_task, task)
             self.queue.mark_task_succeeded(task_id, result)

@@ -275,6 +275,11 @@ class ImageGenerator:
                     "Scene %s: FLUX OOM — releasing cache and falling back to SDXL",
                     segment_id,
                 )
+                if self._pipe is not None:
+                    try:
+                        self._pipe.unload()
+                    except Exception:
+                        pass
                 self._pipe = None
                 gc.collect()
                 try:

@@ -88,16 +88,7 @@ class SDXLBackend:
             variant="fp16" if torch.cuda.is_available() else None,
         )
         
-        # Use CPU offloading to prevent OOM
-        if device == "cuda":
-            try:
-                self._pipe.enable_model_cpu_offload()
-                logger.debug("SDXLBackend: model_cpu_offload enabled")
-            except Exception as e:
-                logger.debug(f"SDXLBackend: cpu offload failed, falling back to cuda: {e}")
-                self._pipe = self._pipe.to(device)
-        else:
-            self._pipe = self._pipe.to(device)
+        self._pipe = self._pipe.to(device)
 
         # Disable safety checker for creative content generation
         self._pipe.safety_checker = None
@@ -116,7 +107,7 @@ class SDXLBackend:
             logger.debug("SDXLBackend: xformers not available, using default attention")
 
         try:
-            self._pipe.enable_vae_slicing()
+            self._pipe.vae.enable_slicing()
             logger.debug("SDXLBackend: VAE slicing enabled")
         except Exception:
             pass
@@ -158,37 +149,48 @@ class SDXLBackend:
         guidance_scale = request.guidance_scale if request.guidance_scale > 0 else 7.5
         num_steps = request.num_steps if request.num_steps > 1 else 30
 
-        try:
-            generator = None
-            if request.seed is not None:
-                generator = torch.Generator().manual_seed(request.seed)
+        OOM_FALLBACK_SIZES = [(512, 896), (448, 768)]
+        
+        for attempt_w, attempt_h in [(w, h)] + OOM_FALLBACK_SIZES:
+            try:
+                generator = None
+                if request.seed is not None:
+                    generator = torch.Generator().manual_seed(request.seed)
 
-            result = self._pipe(
-                prompt=request.prompt,
-                negative_prompt=request.negative_prompt or None,
-                width=w,
-                height=h,
-                num_inference_steps=num_steps,
-                guidance_scale=guidance_scale,
-                generator=generator,
-            )
-            return result.images[0]
-
-        except Exception as exc:
-            exc_str = str(exc)
-            exc_type = type(exc).__name__
-            if "OutOfMemoryError" in exc_type or "CUDA out of memory" in exc_str:
-                logger.warning(
-                    "SDXLBackend: CUDA OOM at %dx%d — returning None",
-                    w, h,
+                result = self._pipe(
+                    prompt=request.prompt,
+                    negative_prompt=request.negative_prompt or None,
+                    width=attempt_w,
+                    height=attempt_h,
+                    num_inference_steps=num_steps,
+                    guidance_scale=guidance_scale,
+                    generator=generator,
                 )
-                try:
-                    import torch as _t
-                    _t.cuda.empty_cache()
-                except Exception:
-                    pass
-                return None
-            raise  # Re-raise non-OOM errors for upstream logging
+                return result.images[0]
+
+            except Exception as exc:
+                exc_str = str(exc)
+                exc_type = type(exc).__name__
+                if "OutOfMemoryError" in exc_type or "CUDA out of memory" in exc_str:
+                    try:
+                        import torch as _t
+                        _t.cuda.empty_cache()
+                    except Exception:
+                        pass
+                        
+                    if (attempt_w, attempt_h) == OOM_FALLBACK_SIZES[-1]:
+                        logger.warning("SDXLBackend: exhausted all OOM fallbacks, returning None")
+                        return None
+                    else:
+                        logger.warning("SDXLBackend: CUDA OOM at %dx%d, retrying smaller...", attempt_w, attempt_h)
+                        continue
+                        
+                elif "Expected all tensors to be on the same device" in exc_str:
+                    logger.error("SDXLBackend: Device mismatch — pipeline may be contaminated by accelerate hooks. Unloading.")
+                    self.unload()
+                    return None
+                    
+                raise  # Re-raise non-OOM errors for upstream logging
 
     def warmup(self) -> None:
         """

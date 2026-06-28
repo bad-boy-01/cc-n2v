@@ -1,11 +1,11 @@
 """
-Task execution service — redirected to lib/services/ layer.
+Task execution service dispatcher.
 
-It now delegates ALL business logic to lib/services/ functions,
+Delegates ALL business logic to lib/services/ functions,
 making the same logic available from WebUI, CLI, and Kaggle notebook.
 
 The existing generation_queue.py + generation_worker.py call
-execute_generation_task() — that interface is preserved unchanged.
+execute_generation_task() here.
 """
 
 from __future__ import annotations
@@ -18,7 +18,7 @@ from lib.project_manager import ProjectManager
 
 logger = logging.getLogger(__name__)
 
-project_root = Path(__file__).parent.parent.parent.parent
+project_root = Path(__file__).parent.parent.parent
 pm = ProjectManager(project_root / "projects")
 
 
@@ -172,7 +172,6 @@ def execute_storyboard_grid_task(
 def execute_generation_task(task: Dict[str, Any]) -> Dict[str, Any]:
     """
     Main task dispatcher — called by generation_worker.py.
-    Interface preserved from original; now delegates to lib/services/.
     """
     task_type = task.get("task_type")
     project_name = task.get("project_name")
