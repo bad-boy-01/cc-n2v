@@ -60,16 +60,11 @@ def _normalize_action(text: str) -> str:
 
 def _scene_cache_key(scene: Dict) -> str:
     """
-    Canonical cache key from semantic scene properties.
-    Uses location + sorted characters + scene_type — NOT raw prompt text.
-    This survives LLM rewording and template changes.
+    Cache based on the exact image prompt.
+    Using location/characters was too broad and caused 95% of scenes to reuse the exact same image.
     """
     key = {
-        "location": scene.get("location", "unknown").lower().strip(),
-        "characters": sorted(
-            c.lower().strip() for c in scene.get("characters", [])
-        ),
-        "scene_type": scene.get("scene_type", "exposition"),
+        "prompt": scene.get("image_prompt", "").strip(),
     }
     raw = json.dumps(key, sort_keys=True, ensure_ascii=False)
     return hashlib.sha256(raw.encode()).hexdigest()[:16]
