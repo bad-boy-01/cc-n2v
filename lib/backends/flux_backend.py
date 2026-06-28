@@ -65,7 +65,17 @@ class FluxBackend:
             FLUX_REPO,
             torch_dtype=dtype,
         )
-        self._pipe = self._pipe.to(device)
+        
+        # Use CPU offloading to prevent OOM on 15GB VRAM GPUs like Kaggle T4
+        if device == "cuda":
+            try:
+                self._pipe.enable_model_cpu_offload()
+                logger.debug("FluxBackend: model_cpu_offload enabled")
+            except Exception as e:
+                logger.debug(f"FluxBackend: cpu offload failed, falling back to cuda: {e}")
+                self._pipe = self._pipe.to(device)
+        else:
+            self._pipe = self._pipe.to(device)
 
         # Memory optimizations
         try:

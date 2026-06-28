@@ -87,7 +87,17 @@ class SDXLBackend:
             use_safetensors=True,
             variant="fp16" if torch.cuda.is_available() else None,
         )
-        self._pipe = self._pipe.to(device)
+        
+        # Use CPU offloading to prevent OOM
+        if device == "cuda":
+            try:
+                self._pipe.enable_model_cpu_offload()
+                logger.debug("SDXLBackend: model_cpu_offload enabled")
+            except Exception as e:
+                logger.debug(f"SDXLBackend: cpu offload failed, falling back to cuda: {e}")
+                self._pipe = self._pipe.to(device)
+        else:
+            self._pipe = self._pipe.to(device)
 
         # Disable safety checker for creative content generation
         self._pipe.safety_checker = None
