@@ -394,6 +394,16 @@ class VideoAgent:
         self._log(f"Starting pipeline (mode={self.mode}, episode={self.episode})")
         self._log(f"Current state:\n{self.state}")
 
+        if self.input_file and Path(self.input_file).is_file() and Path(self.input_file).suffix.lower() in [".zip", ".cbz"]:
+            import zipfile
+            extract_dir = self.project_dir / "cache" / "extracted_input"
+            extract_dir.mkdir(parents=True, exist_ok=True)
+            self._log(f"Extracting {self.input_file} to {extract_dir} ...")
+            with zipfile.ZipFile(self.input_file, 'r') as zip_ref:
+                zip_ref.extractall(extract_dir)
+            self.input_file = str(extract_dir)
+
+
         if self.mode == "manhwa":
             self._stage0_manhwa_ocr()
             self._stage1_storyboard()
