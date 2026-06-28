@@ -58,6 +58,10 @@ def _setup_args() -> argparse.Namespace:
         help="Pipeline mode"
     )
     parser.add_argument(
+        "--style", type=str, default="default",
+        help="Visual style profile to use (matches a filename in styles/ directory, e.g. 'manhwa')"
+    )
+    parser.add_argument(
         "--episode", type=int, default=1,
         help="Episode number to generate (default: 1)"
     )
@@ -229,9 +233,11 @@ def main():
                 input_file=args.input,
                 mode=args.mode,
                 episode=args.episode,
+                projects_root=None,
                 llm=args.llm,
                 load_in_4bit=load_in_4bit,
                 resolution=args.resolution,
+                style=args.style,
                 dry_run=args.dry_run,
                 resume=args.resume or not args.overwrite,
                 fast_cpu_overlap=args.fast_cpu_overlap,

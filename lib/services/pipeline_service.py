@@ -60,6 +60,7 @@ def run_pipeline(
     resume: bool = True,
     fast_cpu_overlap: bool = False,
     max_scenes: Optional[int] = None,
+    style: str = "default",
 ) -> Dict[str, Any]:
     """
     Run the complete video generation pipeline.
@@ -98,6 +99,7 @@ def run_pipeline(
         dry_run=dry_run,
         fast_cpu_overlap=fast_cpu_overlap,
         max_scenes=max_scenes,
+        style=style,
     )
 
     return agent.run()

@@ -105,6 +105,7 @@ class VideoAgent:
         dry_run: bool = False,
         fast_cpu_overlap: bool = False,
         max_scenes: Optional[int] = None,
+        style: str = "default",
     ):
         from lib.project_manager import ProjectManager
         self.project_name = project_name
@@ -127,6 +128,7 @@ class VideoAgent:
             projects_root=projects_root,
             llm=llm,
             load_in_4bit=load_in_4bit,
+            style=style,
         )
         self.analytics = PipelineAnalytics(self.project_name, projects_root)
         self.analytics.set_model_stack(llm=llm)
