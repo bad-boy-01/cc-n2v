@@ -133,5 +133,9 @@ class ManhwaPanelDetector:
                 all_panels.append((segment_id, out_path))
                 global_panel_idx += 1
                 
+            del panels
+            import gc
+            gc.collect()
+                
         logger.info(f"Extracted {len(all_panels)} panels in total.")
         return all_panels

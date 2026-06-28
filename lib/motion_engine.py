@@ -239,6 +239,13 @@ class MotionEngine:
             frames = frames[:-fade_frames] + fade if len(frames) > fade_frames else frames
 
         self._write_video(frames, out_path)
+        
+        # Aggressive memory cleanup to prevent OOM
+        del frames
+        del base_arr
+        import gc
+        gc.collect()
+        
         return out_path
 
     def _write_video(self, frames: List[np.ndarray], out_path: Path) -> None:
@@ -256,6 +263,7 @@ class MotionEngine:
                 logger=None,    # suppress moviepy verbose output
                 ffmpeg_params=["-crf", "23", "-preset", "fast"],
             )
+            clip.close()
         except ImportError:
             # Fallback: write via OpenCV
             import cv2
