@@ -460,6 +460,6 @@ class VideoAgent:
         return {
             "project": self.project_name,
             "episode": self.episode,
-            "output": str(output) if output else None,
+            "output_path": str(output) if output else None,
             "state": self.state._state,
         }
