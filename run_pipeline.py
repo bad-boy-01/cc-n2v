@@ -95,7 +95,7 @@ def _setup_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--voice", type=str, default=os.environ.get("CCNV_VOICE", "af_heart"),
-        help="Kokoro TTS voice (e.g., af_heart, af_bella, am_adam)"
+        help="Kokoro TTS voice (e.g., af_heart) OR edge-tts voice (e.g., en-US-AndrewNeural)"
     )
 
     # Output adjustments
