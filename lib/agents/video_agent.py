@@ -128,8 +128,8 @@ class VideoAgent:
             projects_root=projects_root,
             llm=llm,
             load_in_4bit=load_in_4bit,
-            style=style,
         )
+        self.style = style
         self.analytics = PipelineAnalytics(self.project_name, projects_root)
         self.analytics.set_model_stack(llm=llm)
 
@@ -251,7 +251,7 @@ class VideoAgent:
         planner.run()
 
         # Director agent (visual style & pacing)
-        director = DirectorAgent(self.project_name, **self._agent_kwargs)
+        director = DirectorAgent(self.project_name, style=self.style, **self._agent_kwargs)
         director.run()
 
         # Character + clue extraction (share same Qwen instance via singleton)
