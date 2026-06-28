@@ -283,7 +283,7 @@ class StoryboardAgent(BaseAgent):
         loc_summary = self._build_location_summary()
         
         # Load DirectorProfile and WorldEngine
-        profile_path = self.get_path("drafts", f"episode_{self.episode}", "director_profile.json")
+        profile_path = self.project_dir / "director_profile.json"
         director_profile = {}
         if profile_path.exists():
             with open(profile_path, encoding="utf-8") as f:
